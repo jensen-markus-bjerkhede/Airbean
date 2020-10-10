@@ -6,7 +6,7 @@ const router = new Router();
 const { db } = require('./../db')
 
 router.get('/', (req, res) => {
-    let products = db.get('menu').value()
+    let products = db.get('products').value()
     res.send(products)
 })
 
