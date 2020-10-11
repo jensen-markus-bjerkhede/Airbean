@@ -2,6 +2,7 @@
   <section id="navigation">
       <nav @click="hideNavigation">
      <router-link class="link" to="/menu">Meny</router-link>
+     <router-link class="link" to="/about">Vårt kaffe</router-link>
       </nav>
   </section>
 </template>
