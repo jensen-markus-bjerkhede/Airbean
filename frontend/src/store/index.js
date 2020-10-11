@@ -35,5 +35,8 @@ export default new Vuex.Store({
     modules: {
     },
     getters: {
+        products: state => {
+            return state.products
+        },
     }
 })
