@@ -1,22 +1,31 @@
 <template>
   <div id="app">
 
-    <NavMenu v-show="MenuToggle"/>
-    <NavBtn/>
+    <Navigation v-show="navigationToggle"/>
+    <NavigationButton/>
     <router-view/>
   </div>
 </template>
 
 <script>
 
+import Navigation from '@/components/Navigation'
+import NavigationButton from '@/components/NavigationButton'
+
   export default {
     name: 'App',
     components: {
-     
+      Navigation,
+      NavigationButton
     },
-    computed: {
-      
+   computed: {
+      navigationToggle() {
+        return this.$store.state.ui.showNavigation
+      },
     },
+    beforeMount(){
+      this.$store.dispatch('fetchProducts')
+    }
   }
 </script>
 

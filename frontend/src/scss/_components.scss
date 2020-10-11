@@ -73,7 +73,7 @@
 
 
 #navigation-button {
-
+    cursor: pointer;
     height: 48px;
     width: 48px;
     position: absolute;
@@ -90,7 +90,7 @@
 
     z-index: 10;
 
-    .menu-bar {
+    .navigation-bar {
         border-bottom: 3px solid black;
         border-radius: 10px;
         width: 25px;
