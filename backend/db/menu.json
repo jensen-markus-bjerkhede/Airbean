@@ -40,5 +40,9 @@
   "orders": [
   ],
   "users": [
+    {
+      "name": "kalle",
+      "mail": "john.doe@email.com"
+    }
   ]
 }

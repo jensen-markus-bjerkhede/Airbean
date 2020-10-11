@@ -4,6 +4,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 
 //Routes
+const userRoute = require('./routes/user')
 const productsRoute = require('./routes/products')
 
 // Variables
@@ -14,6 +15,7 @@ app.use(cors())
 app.use(bodyParser.json());
 
 // Get
+app.use('(/user', userRoute)
 app.use('/products', productsRoute)
 
 // Static Assets
