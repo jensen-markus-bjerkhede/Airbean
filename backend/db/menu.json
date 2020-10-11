@@ -37,12 +37,15 @@
       "price": 39
     }
   ],
-  "orders": [
-  ],
+  "orders": [],
   "users": [
     {
       "name": "kalle",
       "mail": "john.doe@email.com"
+    },
+    {
+      "name": "test",
+      "mail": "test@email.com"
     }
   ]
 }

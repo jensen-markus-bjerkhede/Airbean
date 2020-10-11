@@ -15,7 +15,7 @@ app.use(cors())
 app.use(bodyParser.json());
 
 // Get
-app.use('(/user', userRoute)
+app.use('/user', userRoute)
 app.use('/products', productsRoute)
 
 // Static Assets
