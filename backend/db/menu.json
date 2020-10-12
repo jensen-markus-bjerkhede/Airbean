@@ -37,8 +37,47 @@
       "price": 39
     }
   ],
-  "orders": [],
-  "users": [
-
-  ]
+  "orders": [
+    {
+      "id": "8833f598-b88e-4cf0-842a-ff7de8dcb681",
+      "owner": "john.doe@email.com",
+      "totalCost": 2722763,
+      "createdAt": 1602517348,
+      "products": [
+        {
+          "id": 1,
+          "quantity": 2
+        },
+        {
+          "id": 3,
+          "quantity": 10
+        },
+        {
+          "id": 2,
+          "quantity": 55555
+        }
+      ]
+    },
+    {
+      "id": "6aab78e1-7bde-441c-a0fd-6a25b085b4af",
+      "owner": "john.doe@email.com",
+      "totalCost": 2722763,
+      "createdAt": 1602517549,
+      "products": [
+        {
+          "id": 1,
+          "quantity": 2
+        },
+        {
+          "id": 3,
+          "quantity": 10
+        },
+        {
+          "id": 2,
+          "quantity": 55555
+        }
+      ]
+    }
+  ],
+  "users": []
 }

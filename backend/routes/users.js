@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const router = new Router();
-const { db } = require('./../db')
+const { db } = require('../db')
 
 router.get('/', (req, res) => {
     if (req.query.userEmail === 'undefined') {
