@@ -30,6 +30,29 @@ export default new Vuex.Store({
             catch (err) {
                 console.error(err)
             }
+        },
+        async createUser(ctx, user) {
+            let post = {
+                method: 'POST',
+                body: JSON.stringify(user),
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            }
+            let resp = await fetch(`${this.state.apiURL}user/create`, post)
+            if (resp.status === 201 || resp.status === 200) {
+                let user = await resp.json()
+                sessionStorage.setItem('user', JSON.stringify(user))
+            }
+        }
+    },
+    async getUser() {
+        try {
+            this.state.user = JSON.parse(sessionStorage.getItem('user'))
+        }
+        catch (err) {
+            console.error(err)
         }
     },
     modules: {
