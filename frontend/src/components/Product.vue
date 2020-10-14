@@ -1,7 +1,7 @@
 <template>
   <section class="product-wrapper" >
     <section class="product-item">
-      <button class="purchase-btn"> +
+      <button class="purchase-btn" @click = "addProductToShoppingCart"> +
       </button>
 
       <h2 class="item-name">{{product.title}}</h2>
@@ -21,7 +21,9 @@
       product: Object
     },
     methods: {
-  
+    addProductToShoppingCart() {
+    this.$store.commit('addToShoppingCart', this.product)
+    }
     }
   }
 </script>

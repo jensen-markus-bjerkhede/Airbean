@@ -24,8 +24,10 @@
     <div class="user-img">
       <img src="@/assets/Union.svg" alt="" />
     </div>
-    <h3>{{ this.user.name }}</h3>
-    <p>{{ this.user.mail }}</p>
+    <article v-if="isLoggedIn">
+      <h3>{{ this.userName }}</h3>
+      <p>{{ this.userMail }}</p>
+    </article>
   </main>
 </template>
 
@@ -34,30 +36,38 @@ export default {
   name: "profile",
   data() {
     return {
+      isLoggedIn: false,
       createUserForm: Boolean,
       gdprCheck: false,
       inputName: "",
       inputEmail: "",
-      user: { name: "", mail: "" },
+      userName: "",
+      userMail: "",
     };
   },
   beforeMount() {
-    let user = sessionStorage.getItem("user");
+    let user = JSON.parse(sessionStorage.getItem("user"));
     if (user === null) {
       this.createUserForm = true;
     } else {
       this.createUserForm = false;
+      this.isLoggedIn = true;
+      this.userName = user.name;
+      this.userMail = user.mail;
     }
-    this.user = JSON.parse(user);
   },
   methods: {
-    createUser() {
+    async createUser() {
       if (this.gdprCheck) {
         this.createUserForm = false;
+        this.isLoggedIn = true;
         let userCreate = { name: this.inputName, mail: this.inputEmail };
-        this.$store.dispatch("createUser", userCreate);
+        let createdUser = await this.$store.dispatch("createUser", userCreate);
+        this.userName = createdUser.name;
+        this.userMail = createdUser.mail;
+
       } else {
-        console.log("no gdpr check");
+        alert("Need to approve GDPR");
       }
     },
     gdprToggle() {

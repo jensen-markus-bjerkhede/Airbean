@@ -1,5 +1,7 @@
 <template>
   <main id="products">
+      <ShoppingCartButton :cartQuantity="totalShoppingCart"/>
+    <ShoppingCart v-if="shoppingCartToggle"/>
     <h1>Meny</h1>
     <Product v-for="product in products" :key="product.id" :product="product"/>
   </main>
@@ -8,16 +10,29 @@
 <script>
 
   import Product from '@/components/Product'
+  import ShoppingCart from '@/components/ShoppingCart'
+  import ShoppingCartButton from '@/components/ShoppingCartButton'
   export default {
     name: 'menu-page',
     components: {
       Product,
+      ShoppingCart,
+      ShoppingCartButton
     },
     computed: {
       products(){
-          console.log('sdfdsfsd')
         return this.$store.getters.products;
       },
+      shoppingCartToggle() {
+      return this.$store.state.ui.showShoppingCart
+    },
+    totalShoppingCart() {
+      let sum = 0;
+      this.$store.getters.shoppingCart.forEach(item => {
+        sum += item.quantity;
+      });
+      return sum;
+    },
     }
   }
 </script>
