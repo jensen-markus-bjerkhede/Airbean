@@ -52,6 +52,21 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        async placeOrder(ctx, order) {
+            let post = {
+                method: 'POST',
+                body: JSON.stringify(order),
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            }
+            let resp = await fetch(`${ctx.state.apiURL}orders/create`, post)
+            if (resp.status === 201 || resp.status === 200) {
+                console.log(resp.body)
+                return resp.body;
+            }
+        },
         async fetchProducts(ctx) {
             try {
                 let resp = await fetch(`${ctx.state.apiURL}products`)
@@ -72,7 +87,7 @@ export default new Vuex.Store({
                     'Content-Type': 'application/json',
                 }
             }
-            let resp = await fetch(`${this.state.apiURL}users/create`, post)
+            let resp = await fetch(`${ctx.state.apiURL}users/create`, post)
             if (resp.status === 201 || resp.status === 200) {
                 let user = await resp.json()
                 sessionStorage.setItem('user', JSON.stringify(user))
@@ -88,14 +103,13 @@ export default new Vuex.Store({
         },
         shoppingCart: state => {
             return state.shoppingCart
-          },
-          totalShoppingCart: state => {
-            //let sum = 0;
+        },
+        totalShoppingCart: state => {
             let cartLength = 0
             state.shoppingCart.forEach(item => {
-              cartLength += item.quantity;
+                cartLength += item.quantity;
             });
             return cartLength;
-          }
+        }
     }
 })

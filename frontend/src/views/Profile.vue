@@ -59,13 +59,16 @@ export default {
   methods: {
     async createUser() {
       if (this.gdprCheck) {
-        this.createUserForm = false;
-        this.isLoggedIn = true;
         let userCreate = { name: this.inputName, mail: this.inputEmail };
         let createdUser = await this.$store.dispatch("createUser", userCreate);
-        this.userName = createdUser.name;
-        this.userMail = createdUser.mail;
-
+        if (createdUser !== undefined) {
+          this.createUserForm = false;
+          this.isLoggedIn = true;
+          this.userName = createdUser.name;
+          this.userMail = createdUser.mail;
+        } else {
+            alert("Bad user input");    
+        }
       } else {
         alert("Need to approve GDPR");
       }

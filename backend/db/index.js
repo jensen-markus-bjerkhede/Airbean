@@ -45,6 +45,7 @@ db.defaults({
   ],
   "orders": [
   ],
+  "orderNumber" : 100000000,
   "users": [
   ]
     })
