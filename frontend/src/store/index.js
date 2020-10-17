@@ -41,9 +41,6 @@ export default new Vuex.Store({
                 state.shoppingCart.splice(index, 1)
             }
         },
-        addProductsToState(state, products) {
-            state.products = products
-        },
         toggleNavigation(state) {
             state.ui.showNavigation = !state.ui.showNavigation;
         },
@@ -68,15 +65,8 @@ export default new Vuex.Store({
             }
         },
         async fetchProducts(ctx) {
-            try {
-                let resp = await fetch(`${ctx.state.apiURL}products`)
-                let data = await resp.json()
-
-                ctx.commit('addProductsToState', data)
-            }
-            catch (err) {
-                console.error(err)
-            }
+            let resp = await fetch(`${ctx.state.apiURL}products`);
+            ctx.state.products = await resp.json();
         },
         async createUser(ctx, user) {
             let post = {

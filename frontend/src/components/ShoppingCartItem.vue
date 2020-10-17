@@ -1,8 +1,8 @@
 <template>
     <article class="ShoppingCart-item">
         <section class="item-info">
-            <h2 class="item-name">{{coffee.title}}</h2>
-            <span>{{coffee.price}} kr</span>
+            <h2 class="item-name">{{shoppingCartItem.title}}</h2>
+            <span>{{shoppingCartItem.price}} kr</span>
         </section>
         <p class="dots"></p>
         <section class="item-quantity">
@@ -17,21 +17,21 @@
     export default {
         name: 'ShoppingCart-item',
         props: {
-            coffee: Object
+            shoppingCartItem: Object
         },
         data(){
             return {
-                quantity: this.coffee.quantity
+                quantity: this.shoppingCartItem.quantity
             }
         },
         methods: {
             increaseItem() {
                 this.quantity++;
-                this.$store.commit('increaseItem', this.coffee);
+                this.$store.commit('increaseItem', this.shoppingCartItem);
             },
             decreaseItem() {
                 this.quantity--
-                this.$store.commit('decreaseItem', this.coffee);
+                this.$store.commit('decreaseItem', this.shoppingCartItem);
             }
         }
     }

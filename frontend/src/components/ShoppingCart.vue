@@ -1,12 +1,11 @@
-
 <template>
   <section class="ShoppingCart-box">
     <section id="ShoppingCart">
       <h2>Din beställning</h2>
       <ShoppingCartItem
-        :coffee="coffee"
-        :key="coffee.id"
-        v-for="coffee in shoppingCart"
+        :shoppingCartItem="shoppingCartItem"
+        :key="shoppingCartItem.id"
+        v-for="shoppingCartItem in shoppingCart"
       />
       <h2 class="total">
         Total <span class="total-dots"></span>{{ totalCost }} kr
@@ -19,6 +18,14 @@
 
 <script>
 import ShoppingCartItem from "@/components/ShoppingCartItem";
+
+function getOrderProductsFromShoppingCart(shoppingCartItems) {
+  let orderProducts = [];
+  shoppingCartItems.forEach(function(item) {
+    orderProducts.push({id: item.id, quantity: item.quantity});
+  });
+  return orderProducts;
+}
 
 export default {
   name: "ShoppingCart",
@@ -38,30 +45,13 @@ export default {
   },
   methods: {
     placeOrder() {
-      owner = sessionStorage.getItem("user");
-      orderProducts = getOrderProductsFromShoppingCart(); 
-      /*
-		{
-			"id": 1,
-			"quantity": 2
-		},
-		{
-			"id": 3,
-			"quantity": 10
-		},
-		{
-			"id": 2,
-			"quantity": 1
-		}
-      */
-      order = {
-        owner: owner,
-        products: [
-          orderProducts
-        ],
+      let owner = JSON.parse(sessionStorage.getItem("user"));
+      let orderProducts = getOrderProductsFromShoppingCart(this.$store.getters.shoppingCart);
+      let order = {
+        owner: owner.mail,
+        products: orderProducts
       };
       this.$store.dispatch("placeOrder", order);
-      this.$router.push("/status");
     },
   },
 };

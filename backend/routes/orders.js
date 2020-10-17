@@ -25,9 +25,9 @@ router.get('/', (req, res) => {
 })
 
 function getIncrementalOrderNumber() {
-    db.update('orderNumber', n => n + 1)
+    db.update('incrementalOrderNumber', n => n + 1)
         .write();
-    return db.get('orderNumber').value();
+    return db.get('incrementalOrderNumber').value();
 }
 
 function getTotalCost(products) {
