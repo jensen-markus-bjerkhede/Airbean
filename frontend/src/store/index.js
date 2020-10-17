@@ -102,7 +102,13 @@ export default new Vuex.Store({
         },
         latestOrder: async state => {
             let user = await JSON.parse(sessionStorage.getItem('user'));
-            let resp = await fetch(`${state.apiURL}orders/latest?owner=${user.mail}`)
+            let ownerMail;
+            if (user === null) {
+                ownerMail = 'unknown';
+            } else {
+                ownerMail = user.mail;
+            }
+            let resp = await fetch(`${state.apiURL}orders/latest?owner=${ownerMail}`)
             return resp.json();
         }
 

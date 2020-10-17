@@ -4,6 +4,7 @@
       <router-link class="link" to="/menu">Meny</router-link>
       <router-link class="link" to="/about">Vårt kaffe</router-link>
       <router-link class="link" to="/profile">Min profil</router-link>
+      <router-link class="link" to="/status">Orderstatus</router-link>
     </nav>
   </section>
 </template>
