@@ -6,7 +6,7 @@ router.post('/create', (req, res) => {
     let totalCost = getTotalCost(req.body.products);
     let timestamp = Math.floor(Date.now() / 1000);
     let eta = timestamp + Math.floor(Math.random() * (1800 - 600) + 600);
-    let orderNumber = '#AB' + getIncrementalOrderNumber() + 'Z'
+    let orderNumber = '#AB' + getIncrementalOrderNumber() + 'Z';
     db.get('orders')
         .push({
             orderNumber: orderNumber,
@@ -16,13 +16,17 @@ router.post('/create', (req, res) => {
             products: req.body.products,
             estimatedTimeArrival: eta
         }).write();
-    res.status(201).send({ orderNumber: orderNumber })
+    res.status(201).send({ orderNumber: orderNumber });
 })
 
 router.get('/', (req, res) => {
-    let orders = db.get('orders').filter({ owner: req.query.owner }).value()
+    let orders = db.get('orders').filter({ owner: req.query.owner }).value();
     res.send(orders);
 })
+router.get('/latest', (req, res) => {
+    let orders = db.get('orders').filter({ owner: req.query.owner }).value();
+    res.send(orders.slice(-1)[0]);
+  })
 
 function getIncrementalOrderNumber() {
     db.update('incrementalOrderNumber', n => n + 1)
@@ -37,7 +41,7 @@ function getTotalCost(products) {
 }
 
 function getProductPrice(id) {
-    let product = db.get('products').find({ id: id }).value()
+    let product = db.get('products').find({ id: id }).value();
     return product.price;
 }
 

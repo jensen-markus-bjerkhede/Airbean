@@ -45,13 +45,14 @@ export default {
   },
   methods: {
     placeOrder() {
-      let owner = JSON.parse(sessionStorage.getItem("user"));
+      let owner = JSON.parse(sessionStorage.getItem('user'));
       let orderProducts = getOrderProductsFromShoppingCart(this.$store.getters.shoppingCart);
       let order = {
         owner: owner.mail,
         products: orderProducts
       };
-      this.$store.dispatch("placeOrder", order);
+      this.$store.dispatch('placeOrder', order);
+      this.$router.push('/status');
     },
   },
 };

@@ -60,7 +60,6 @@ export default new Vuex.Store({
             }
             let resp = await fetch(`${ctx.state.apiURL}orders/create`, post)
             if (resp.status === 201 || resp.status === 200) {
-                console.log(resp.body)
                 return resp.body;
             }
         },
@@ -100,6 +99,12 @@ export default new Vuex.Store({
                 cartLength += item.quantity;
             });
             return cartLength;
+        },
+        latestOrder: async state => {
+            let user = await JSON.parse(sessionStorage.getItem('user'));
+            let resp = await fetch(`${state.apiURL}orders/latest?owner=${user.mail}`)
+            return resp.json();
         }
+
     }
 })
