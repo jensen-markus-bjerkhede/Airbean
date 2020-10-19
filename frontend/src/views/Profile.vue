@@ -28,10 +28,26 @@
       <h3>{{ this.userName }}</h3>
       <p>{{ this.userMail }}</p>
     </article>
+    <section class="order-history" v-if="hasHistory">
+      <article class="order-item" v-for="order in orders" :key="order.orderNumber">
+        <h4>#{{ order.orderNumber }}</h4>
+        <p>{{ moment(order.createdAt * 1000).format("YY/MM/DD") }}</p>
+        <p>total ordersumma</p>
+        <p>{{ order.totalCost }} kr</p>
+      </article>
+      <h4>{{ totalHistoryCost }} kr</h4>
+      <div class="dots"></div>
+    </section>
   </main>
 </template>
 
 <script>
+function getTotalHistoryCost(orders) {
+  let totalCost = 0;
+  orders.forEach((order) => (totalCost += order.totalCost));
+  return totalCost;
+}
+
 export default {
   name: "profile",
   data() {
@@ -39,14 +55,18 @@ export default {
       isLoggedIn: false,
       createUserForm: Boolean,
       gdprCheck: false,
+      test: "",
       inputName: "",
       inputEmail: "",
       userName: "",
       userMail: "",
+      orders: [],
+      totalHistoryCost: Number,
+      hasHistory: false,
     };
   },
-  beforeMount() {
-    let user = JSON.parse(sessionStorage.getItem("user"));
+  async beforeMount() {
+    let user = await JSON.parse(sessionStorage.getItem("user"));
     if (user === null) {
       this.createUserForm = true;
     } else {
@@ -54,12 +74,18 @@ export default {
       this.isLoggedIn = true;
       this.userName = user.name;
       this.userMail = user.mail;
+      this.orders = await this.$store.dispatch("fetchOrderHistory");
+      this.totalHistoryCost = getTotalHistoryCost(this.orders);
+      if (this.orders.length > 0) {
+        this.hasHistory = true;
+      }
     }
   },
   methods: {
     async createUser() {
       if (this.gdprCheck) {
         let userCreate = { name: this.inputName, mail: this.inputEmail };
+        console.log(userCreate);
         let createdUser = await this.$store.dispatch("createUser", userCreate);
         if (createdUser !== undefined) {
           this.createUserForm = false;
@@ -67,7 +93,7 @@ export default {
           this.userName = createdUser.name;
           this.userMail = createdUser.mail;
         } else {
-            alert("Bad user input");    
+          alert("Bad user input");
         }
       } else {
         alert("Need to approve GDPR");

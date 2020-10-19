@@ -33,8 +33,8 @@ router.post('/create', (req, res) => {
 })
 
 function getUser(body) {
-    let user = db.get('users').find({ mail: body.mail }).value() !== undefined
-    if (db.get('users').find({ mail: body.mail }).value() !== undefined) {
+    let user = db.get('users').find({ mail: body.mail }).value()
+    if (user !== undefined) {
         console.log('User: {name:'+ body.name + ', mail:' + body.mail + '} already exists, logging in')
         return user;
     } else {

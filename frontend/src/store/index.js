@@ -7,9 +7,12 @@ function getIndex(state, product) {
     return state.shoppingCart.findIndex(item => item.id === product.id);
 }
 
+function getBaseURL() {
+    return 'http://localhost:5000/';
+}
+
 export default new Vuex.Store({
     state: {
-        apiURL: 'http://localhost:5000/',
         ui: {
             showNavigation: false,
             showShoppingCart: false,
@@ -46,7 +49,13 @@ export default new Vuex.Store({
         },
         toggleShoppingCart(state) {
             state.ui.showShoppingCart = !state.ui.showShoppingCart;
-        }
+        },
+        clearShoppingCart(state) {
+            state.shoppingCart = [];
+        },
+        updateProducts(state, products) {
+            state.products = products;
+        },
     },
     actions: {
         async placeOrder(ctx, order) {
@@ -58,14 +67,16 @@ export default new Vuex.Store({
                     'Content-Type': 'application/json',
                 }
             }
-            let resp = await fetch(`${ctx.state.apiURL}orders/create`, post)
-            if (resp.status === 201 || resp.status === 200) {
+            let resp = await fetch(`${getBaseURL()}orders/create`, post)
+            if (resp.status === 201) {
+                ctx.commit("toggleShoppingCart");
+                ctx.commit("clearShoppingCart");
                 return resp.body;
             }
         },
         async fetchProducts(ctx) {
-            let resp = await fetch(`${ctx.state.apiURL}products`);
-            ctx.state.products = await resp.json();
+            let resp = await fetch(`${getBaseURL()}products`);
+            ctx.commit("updateProducts", await resp.json());
         },
         async createUser(ctx, user) {
             let post = {
@@ -76,15 +87,30 @@ export default new Vuex.Store({
                     'Content-Type': 'application/json',
                 }
             }
-            let resp = await fetch(`${ctx.state.apiURL}users/create`, post)
+            let resp = await fetch(`${getBaseURL()}users/create`, post)
             if (resp.status === 201 || resp.status === 200) {
-                let user = await resp.json()
-                sessionStorage.setItem('user', JSON.stringify(user))
+                let user = await resp.json();
+                sessionStorage.setItem('user', JSON.stringify(user));
+                ctx.commit("clearShoppingCart");
                 return user;
             }
-        }
-    },
-    modules: {
+        },
+        async fetchOrderHistory() {
+            const user = await JSON.parse(sessionStorage.getItem('user'));
+            let resp = await fetch(`${getBaseURL()}orders?owner=${user.mail}`)
+            return resp.json();
+        },
+        async fetchLatestOrder() {
+            const user = await JSON.parse(sessionStorage.getItem('user'));
+            let ownerMail;
+            if (user === null) {
+                ownerMail = 'unknown';
+            } else {
+                ownerMail = user.mail;
+            }
+            let resp = await fetch(`${getBaseURL()}orders/latest?owner=${ownerMail}`)
+            return resp.json();
+        },
     },
     getters: {
         products: state => {
@@ -100,17 +126,5 @@ export default new Vuex.Store({
             });
             return cartLength;
         },
-        latestOrder: async state => {
-            let user = await JSON.parse(sessionStorage.getItem('user'));
-            let ownerMail;
-            if (user === null) {
-                ownerMail = 'unknown';
-            } else {
-                ownerMail = user.mail;
-            }
-            let resp = await fetch(`${state.apiURL}orders/latest?owner=${ownerMail}`)
-            return resp.json();
-        }
-
     }
 })
