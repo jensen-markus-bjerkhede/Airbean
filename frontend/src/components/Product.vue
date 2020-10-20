@@ -39,10 +39,10 @@
     .purchase-btn {
       width: 32px;
       height: 32px;
-
       border-radius: 999rem;
       background: #2F2926;
       box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
+      color: white;
     }
 
     h2 {

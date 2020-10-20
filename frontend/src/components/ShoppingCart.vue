@@ -86,7 +86,7 @@ export default {
     text-align: left;
   }
 }
-.cart-item {
+.ShoppingCart-item {
   text-align: left;
   display: flex;
   .item-quantity {

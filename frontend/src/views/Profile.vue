@@ -1,5 +1,6 @@
 <template>
   <main id="profile">
+    <img class="leafTop" src="@/assets/leafHorizontal/headerTop.svg" alt="" />
     <article class="create-user" v-if="createUserForm">
       <img src="@/assets/userFormLogo.svg" alt="" />
       <h2>Välkommen till AirBean-familjen!</h2>
@@ -24,7 +25,7 @@
     <div class="user-img">
       <img src="@/assets/Union.svg" alt="" />
     </div>
-    <article v-if="isLoggedIn">
+    <article class="styleWrap" v-if="isLoggedIn">
       <h3>{{ this.userName }}</h3>
       <p>{{ this.userMail }}</p>
     </article>
@@ -35,7 +36,7 @@
         <p>total ordersumma</p>
         <p>{{ order.totalCost }} kr</p>
       </article>
-      <h4>{{ totalHistoryCost }} kr</h4>
+      <h4 class="styleWrap" >{{ totalHistoryCost }} kr</h4>
       <div class="dots"></div>
     </section>
   </main>
@@ -74,11 +75,7 @@ export default {
       this.isLoggedIn = true;
       this.userName = user.name;
       this.userMail = user.mail;
-      this.orders = await this.$store.dispatch("fetchOrderHistory");
-      this.totalHistoryCost = getTotalHistoryCost(this.orders);
-      if (this.orders.length > 0) {
-        this.hasHistory = true;
-      }
+      await this.loadHistory();
     }
   },
   methods: {
@@ -92,8 +89,9 @@ export default {
           this.isLoggedIn = true;
           this.userName = createdUser.name;
           this.userMail = createdUser.mail;
+          await this.loadHistory();
         } else {
-          alert("Bad user input");
+          alert("Require full name and last name and valid email");
         }
       } else {
         alert("Need to approve GDPR");
@@ -101,6 +99,13 @@ export default {
     },
     gdprToggle() {
       this.gdprCheck = !this.gdprCheck;
+    },
+    async loadHistory() {
+      this.orders = await this.$store.dispatch("fetchOrderHistory");
+      this.totalHistoryCost = getTotalHistoryCost(this.orders);
+      if (this.orders.length > 0) {
+        this.hasHistory = true;
+      }
     },
   },
 };
@@ -125,6 +130,9 @@ export default {
     bottom: 0;
   }
 }
+.styleWrap {
+color: white;
+}
 
 .order-history {
   width: 80%;
@@ -145,8 +153,6 @@ export default {
       font-style: normal;
       font-weight: normal;
       font-size: 12px;
-      /* or 14px */
-
       color: rgba(255, 255, 255, 0.5);
     }
   }
@@ -158,13 +164,10 @@ export default {
   height: 35rem;
   background: #f3e4e1;
   box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.55);
-
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  z-index: 10;
-
+  z-index: 1;
   padding-top: 2.5rem;
 
   p {
@@ -174,8 +177,6 @@ export default {
   .push-user {
     width: 248px;
     height: 55px;
-
-    /* Airbean - brown */
     background: $airBeanBrown;
     border-radius: 50px;
   }
@@ -191,8 +192,6 @@ export default {
   #mail-input {
     width: 100%;
     height: 48px;
-
-    /* Airbean - brown */
     border: 1px solid #2f2926;
     box-sizing: border-box;
     border-radius: 6px;
@@ -219,7 +218,6 @@ export default {
   user-select: none;
 }
 
-/* Hide the browser's default checkbox */
 .container input {
   position: absolute;
   opacity: 0;
@@ -228,7 +226,6 @@ export default {
   width: 0;
 }
 
-/* Create a custom checkbox */
 .checkmark {
   position: absolute;
   top: 0;
@@ -240,12 +237,10 @@ export default {
   border: 1px solid black;
 }
 
-/* On mouse-over, add a grey background color */
 .container:hover input ~ .checkmark {
   background-color: #ccc;
 }
 
-/* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
   background-color: $airBeanDarkGreen;
 }

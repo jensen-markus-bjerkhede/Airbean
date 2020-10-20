@@ -1,17 +1,17 @@
 <template>
   <main id="confirmation">
-    <p>Ordernummer {{ latestOrder.orderNumber }}</p>
+    <p class="styleWrap" >Ordernummer {{ latestOrder.orderNumber }}</p>
     <figure>
       <img src="../assets/drone.svg" alt="" class="drone" />
       <img src="../assets/cup.svg" alt="" class="cup" />
     </figure>
-    <article v-if="isDelivered">
+    <article class="styleWrap" v-if="isDelivered">
       <h1>Din order levererades:</h1>
       <p>
         {{ moment(latestOrder.estimatedTimeArrival * 1000).format("llll") }}
       </p>
     </article>
-    <article v-else>
+    <article class="styleWrap" v-else>
       <h1>Din beställning är på väg!</h1>
       <p>{{ arrivesInMinutes }} minuter</p>
     </article>
@@ -44,3 +44,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import "./../scss/variables";
+
+.styleWrap {
+  color: white;
+}
+</style>

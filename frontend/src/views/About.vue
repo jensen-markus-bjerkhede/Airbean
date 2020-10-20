@@ -1,5 +1,8 @@
 <template>
+
   <main id="about">
+     <img class="leafTop" src="@/assets/leafHorizontal/headerTop.svg" alt="" />
+      <img class="leafBottom" src="@/assets/leafHorizontal/headerBottom.svg" alt="" />
     <h1>Vårt kaffe</h1>
 
     <p>

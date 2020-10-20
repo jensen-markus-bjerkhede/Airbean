@@ -15,17 +15,11 @@ body {
     
     #app {
         width: 23.5rem;
-       // height: 100vh;
         background: rgba(56, 132, 109, 1);
-
         position: relative;
-
-
     }
 
     #about {
-        //width: 23.5rem;
-        //height: 100vh;
         background: rgba(243, 228, 225, 1);
 
         position: relative;
@@ -45,10 +39,6 @@ body {
             margin: 2rem;
 
         }
-        //p:nth-child(7){
-        //    text-align: center;
-        //    margin: 0rem;
-        //}
 
         .profile-img {
             width: 74px;
@@ -69,54 +59,3 @@ body {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-body {
-    #app {
-        max-width: 1000px;
-        margin: 1rem auto;
-        header{
-            background: turquoise;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 3rem;
-        }
-        main {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(3, 1fr);
-
-            .product {
-                background: white;
-                box-shadow: $boxShadow;
-
-                figure {
-                    background: #ddd;
-                    @include reset-mp;
-                    display: flex;
-                    justify-content: center;
-                    align-items: flex-end;
-                    padding: 2rem 1rem 0 1rem;
-
-                    img {
-                        width: 100%;
-                    }
-                }
-            }
-        }
-    }
-} 
-*/
