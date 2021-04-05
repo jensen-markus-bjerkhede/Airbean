@@ -33,7 +33,6 @@ export default {
 }
 .product-item {
   display: flex;
-
   .purchase-btn {
     width: 32px;
     height: 32px;
@@ -42,12 +41,10 @@ export default {
     box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
     color: white;
   }
-
   h2 {
     text-align: left;
     padding-left: 1rem;
   }
-
   .price {
     line-height: 33px;
     margin-left: auto;
