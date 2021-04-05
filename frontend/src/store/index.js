@@ -27,6 +27,9 @@ export default new Vuex.Store({
             if (index === -1) {
                 product.quantity = 1
                 state.shoppingCart.push(product)
+            } else {
+                product.quantity++;
+                Vue.set(state.shoppingCart, index, product);
             }
         },
         increaseItem(state, product) {
